@@ -23,7 +23,7 @@ const analyzeToxicity = async (text: string) => {
   try {
     const response = await axios.post(url, request);
     const data = Object.values(response.data.attributeScores);
-    return data.map((item, index) => [
+    return data.map((item) => [
       // @ts-ignore
       response.data.attributeScores,
       // @ts-ignore
