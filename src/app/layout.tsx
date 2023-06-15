@@ -1,13 +1,13 @@
-import "./globals.css";
+import './globals.css';
 
-import { Inter } from "next/font/google";
-import { ReactNode } from "react";
+import { Inter } from 'next/font/google';
+import { ReactNode } from 'react';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  description: "You are so bad",
-  title: "DO NOT SAY PROFANITY",
+  description: 'You are so bad',
+  title: 'DO NOT SAY PROFANITY',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
