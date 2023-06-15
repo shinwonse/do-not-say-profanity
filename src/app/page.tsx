@@ -10,12 +10,25 @@ const analyzeToxicity = async (text: string) => {
   const request = {
     comment: { text },
     languages: [],
-    requestedAttributes: { TOXICITY: {} },
+    requestedAttributes: {
+      IDENTITY_ATTACK: {},
+      INSULT: {},
+      PROFANITY: {},
+      SEVERE_TOXICITY: {},
+      THREAT: {},
+      TOXICITY: {},
+    },
   };
 
   try {
     const response = await axios.post(url, request);
-    return response.data.attributeScores.TOXICITY.summaryScore.value;
+    const data = Object.values(response.data.attributeScores);
+    return data.map((item, index) => [
+      // @ts-ignore
+      response.data.attributeScores,
+      // @ts-ignore
+      item.summaryScore.value,
+    ]);
   } catch (error) {
     // eslint-disable-next-line no-console
     return console.error('Error analyzing toxicity:', error);
@@ -28,13 +41,24 @@ export default function Home() {
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
   };
-
+  // eslint-disable-next-line array-callback-return,consistent-return
   const onSubmit = async () => {
-    const score = await analyzeToxicity(input);
+    let flag = false;
+    const results = await analyzeToxicity(input);
+    // eslint-disable-next-line array-callback-return,consistent-return
+    results?.map((result, idx) => {
+      if (result[1] > 0.6) {
+        flag = true;
+        // eslint-disable-next-line no-alert
+        return alert(
+          `😡${Object.keys(result[0])[idx]}: ${
+            result[1]
+          } 로 비속어 및 욕설로 분류되었습니다.😡`
+        );
+      }
+    });
     // eslint-disable-next-line no-alert
-    if (score > 0.7) return alert('You are toxic 😡');
-    // eslint-disable-next-line no-alert
-    return alert('You are not toxic 😇');
+    if (!flag) return alert('😇비속어 및 욕설이 없습니다.😇');
   };
 
   return (
@@ -49,7 +73,7 @@ export default function Home() {
         onClick={onSubmit}
         type="button"
       >
-        Check Profanity
+        검사하기
       </button>
     </main>
   );
