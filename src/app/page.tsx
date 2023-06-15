@@ -17,6 +17,7 @@ const analyzeToxicity = async (text: string) => {
     const response = await axios.post(url, request);
     return response.data.attributeScores.TOXICITY.summaryScore.value;
   } catch (error) {
+    // eslint-disable-next-line no-console
     return console.error('Error analyzing toxicity:', error);
   }
 };
@@ -30,7 +31,9 @@ export default function Home() {
 
   const onSubmit = async () => {
     const score = await analyzeToxicity(input);
+    // eslint-disable-next-line no-alert
     if (score > 0.7) return alert('You are toxic 😡');
+    // eslint-disable-next-line no-alert
     return alert('You are not toxic 😇');
   };
 
