@@ -37,30 +37,24 @@ const analyzeToxicity = async (text: string) => {
   try {
     const response = await axios.post(url, request);
     const data = Object.values(response.data.attributeScores);
-    // eslint-disable-next-line consistent-return
-    return (
-      data
-        // eslint-disable-next-line array-callback-return,consistent-return
-        .map((item, idx) => {
+    return data
+      .map((item, idx) => {
+        // @ts-ignore
+        if (item.summaryScore.value > PROFANITY_CRITERIA) {
           // @ts-ignore
-          if (item.summaryScore.value > PROFANITY_CRITERIA) {
-            // @ts-ignore
-            return [ATTRIBUTES[idx], item.summaryScore.value];
-          }
-        })
-        .filter((item) => item !== undefined)
-    );
+          return [ATTRIBUTES[idx], item.summaryScore.value];
+        }
+      })
+      .filter((item) => item !== undefined);
   } catch (error) {
-    // eslint-disable-next-line no-console,consistent-return
     return console.error('Error analyzing toxicity:', error);
   }
 };
 
 function ClientComponent() {
   const [input, setInput] = useState('');
-  const [result, setResult] = useState<any[]>([]); // [ [ { TOXICITY: { summaryScore: { value: 0.5 } } }, 0.5 ]
+  const [result, setResult] = useState<any[]>([]);
 
-  // eslint-disable-next-line consistent-return
   const onSubmit = async () => {
     const results = await analyzeToxicity(input);
     // @ts-ignore

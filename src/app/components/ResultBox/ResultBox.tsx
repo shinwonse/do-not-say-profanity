@@ -11,7 +11,6 @@ function ResultBox({ result }: Props) {
         <div>
           {result?.map((item, idx) => {
             return (
-              // eslint-disable-next-line react/no-array-index-key
               <div key={idx}>
                 <span>
                   {item[0]} : {item[1]}

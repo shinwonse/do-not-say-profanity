@@ -1,11 +1,16 @@
 {
   "extends": ["@wonse/eslint-config"],
   "rules": {
-    "eslint-disable-next-line-no-console": "off",
-    "eslint-disable-next-line-array-callback-return": "off",
-    "eslint-disable-consistent-return": "off",
-    "eslint-disable-next-line-no-alert": "off",
+    "array-callback-return": "off",
+
+    "consistent-return": "off",
+
     "import/no-unresolved": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+
+    "next-line": "off",
+    "no-console": "off",
+
+    "react/no-array-index-key": "off"
   }
 }
