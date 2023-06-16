@@ -14,7 +14,7 @@ const ATTRIBUTES = [
 ];
 
 const analyzeToxicity = async (text: string) => {
-  const url = `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${process.env.NEXT_PUBLIC_PERSPECTIVE_API_KEY}`;
+  const url = `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=AIzaSyD0FLOo9XEbmrcjAzI8cC98g-VwoTwASDI`;
 
   const request = {
     comment: { text },
