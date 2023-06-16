@@ -13,7 +13,7 @@ function TextArea({ input, setInput }: Props) {
 
   return (
     <textarea
-      className="rounded w-[500px] text-black border border-black h-[400px] p-5"
+      className="rounded w-full text-black border border-black h-full min-h-[250px] max-h-[400px] p-5"
       onChange={handleChange}
       value={input}
     />
