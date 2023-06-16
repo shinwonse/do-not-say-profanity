@@ -7,14 +7,14 @@ import Button from '@/app/components/Button';
 import ResultBox from '@/app/components/ResultBox';
 import TextArea from '@/app/components/TextArea';
 
-const PROFANITY_CRITERIA = 0.5;
+// const PROFANITY_CRITERIA = 0.5;
 const ATTRIBUTES = [
-  'TOXICITY',
-  'SEVERE_TOXICITY',
-  'IDENTITY_ATTACK',
-  'INSULT',
-  'PROFANITY',
-  'THREAT',
+  'TOXICITY(비속어)',
+  'SEVERE_TOXICITY(심한 비속어)',
+  'IDENTITY_ATTACK(인격 모독)',
+  'INSULT(모욕)',
+  'PROFANITY(욕설)',
+  'THREAT(위협)',
 ];
 
 const analyzeToxicity = async (text: string) => {
@@ -37,15 +37,10 @@ const analyzeToxicity = async (text: string) => {
   try {
     const response = await axios.post(url, request);
     const data = Object.values(response.data.attributeScores);
-    return data
-      .map((item, idx) => {
-        // @ts-ignore
-        if (item.summaryScore.value > PROFANITY_CRITERIA) {
-          // @ts-ignore
-          return [ATTRIBUTES[idx], item.summaryScore.value];
-        }
-      })
-      .filter((item) => item !== undefined);
+    return data.map((item, idx) => {
+      // @ts-ignore
+      return [ATTRIBUTES[idx], item.summaryScore.value];
+    });
   } catch (error) {
     return console.error('Error analyzing toxicity:', error);
   }

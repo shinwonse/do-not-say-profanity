@@ -4,16 +4,23 @@ type Props = {
   result: any[][];
 };
 
+const PROFANITY_CRITERIA = 0.5;
+
 function ResultBox({ result }: Props) {
   return (
-    <div className="p-5 bg-white w-full rounded mt-8 min-h-[120px]">
+    <div className="p-5 bg-white w-full rounded mt-8 min-h-[140px] overflow-scroll overflow-x-hidden">
       {result?.length ? (
         <div>
           {result?.map((item, idx) => {
             return (
               <div key={idx}>
-                <span>
-                  {item[0]} : {item[1]}
+                <span>{item[0]}</span>
+                <span
+                  style={{
+                    color: item[1] > PROFANITY_CRITERIA ? 'red' : 'green',
+                  }}
+                >
+                  : {item[1]}
                 </span>
               </div>
             );
