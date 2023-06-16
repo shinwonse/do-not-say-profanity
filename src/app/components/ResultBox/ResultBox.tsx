@@ -27,7 +27,7 @@ function ResultBox({ result }: Props) {
           })}
         </div>
       ) : (
-        <div>욕설이 감지되지 않았습니다.</div>
+        <div>상단 박스에 텍스트를 입력해주세요.</div>
       )}
     </div>
   );
