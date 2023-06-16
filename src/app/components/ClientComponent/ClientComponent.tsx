@@ -37,6 +37,7 @@ const analyzeToxicity = async (text: string) => {
   try {
     const response = await axios.post(url, request);
     const data = Object.values(response.data.attributeScores);
+    // eslint-disable-next-line consistent-return
     return (
       data
         // eslint-disable-next-line array-callback-return,consistent-return
@@ -50,7 +51,7 @@ const analyzeToxicity = async (text: string) => {
         .filter((item) => item !== undefined)
     );
   } catch (error) {
-    // eslint-disable-next-line no-console
+    // eslint-disable-next-line no-console,consistent-return
     return console.error('Error analyzing toxicity:', error);
   }
 };
