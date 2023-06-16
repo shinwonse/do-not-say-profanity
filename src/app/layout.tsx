@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body
         className={
           (classNames(inter.className),
-          'flex flex-col items-center justify-center bg-gray-800')
+          'flex flex-col items-center justify-center bg-gray-800 text-black')
         }
         style={{ height: '100dvh' }}
       >

@@ -18,6 +18,7 @@ const ATTRIBUTES = [
 ];
 
 const analyzeToxicity = async (text: string) => {
+  if (!text) return;
   const url = `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=AIzaSyD0FLOo9XEbmrcjAzI8cC98g-VwoTwASDI`;
 
   const request = {

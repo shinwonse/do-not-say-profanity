@@ -7,9 +7,9 @@ type Props = {
 function ResultBox({ result }: Props) {
   return (
     <div className="p-5 bg-white w-full rounded mt-8 min-h-[120px]">
-      {result.length ? (
+      {result?.length ? (
         <div>
-          {result.map((item, idx) => {
+          {result?.map((item, idx) => {
             return (
               // eslint-disable-next-line react/no-array-index-key
               <div key={idx}>
