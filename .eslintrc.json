@@ -4,6 +4,8 @@
     "eslint-disable-next-line-no-console": "off",
     "eslint-disable-next-line-array-callback-return": "off",
     "eslint-disable-consistent-return": "off",
-    "eslint-disable-next-line-no-alert": "off"
+    "eslint-disable-next-line-no-alert": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": "off"
   }
 }
