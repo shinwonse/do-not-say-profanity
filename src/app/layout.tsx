@@ -7,8 +7,8 @@ import { ReactNode } from 'react';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  description: 'You are so bad',
-  title: 'DO NOT SAY PROFANITY',
+  description: 'Perspective API를 이용한 비속어 검사 서비스',
+  title: '비속어 검사 서비스',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
