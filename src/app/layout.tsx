@@ -1,5 +1,6 @@
 import './globals.css';
 
+import classNames from 'classnames';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 
@@ -13,7 +14,15 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={
+          (classNames(inter.className),
+          'flex flex-col items-center justify-center bg-gray-800')
+        }
+        style={{ height: '100dvh' }}
+      >
+        {children}
+      </body>
     </html>
   );
 }

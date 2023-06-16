@@ -3,9 +3,18 @@
 import axios from 'axios';
 import { ChangeEvent, useState } from 'react';
 
+const PROFANITY_CRITERIA = 0.5;
+const ATTRIBUTES = [
+  'TOXICITY',
+  'SEVERE_TOXICITY',
+  'IDENTITY_ATTACK',
+  'INSULT',
+  'PROFANITY',
+  'THREAT',
+];
+
 const analyzeToxicity = async (text: string) => {
-  const API_KEY = 'AIzaSyD0FLOo9XEbmrcjAzI8cC98g-VwoTwASDI';
-  const url = `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${API_KEY}`;
+  const url = `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${process.env.NEXT_PUBLIC_PERSPECTIVE_API_KEY}`;
 
   const request = {
     comment: { text },
@@ -23,12 +32,18 @@ const analyzeToxicity = async (text: string) => {
   try {
     const response = await axios.post(url, request);
     const data = Object.values(response.data.attributeScores);
-    return data.map((item) => [
-      // @ts-ignore
-      response.data.attributeScores,
-      // @ts-ignore
-      item.summaryScore.value,
-    ]);
+    return (
+      data
+        // eslint-disable-next-line array-callback-return,consistent-return
+        .map((item, idx) => {
+          // @ts-ignore
+          if (item.summaryScore.value > PROFANITY_CRITERIA) {
+            // @ts-ignore
+            return [ATTRIBUTES[idx], item.summaryScore.value];
+          }
+        })
+        .filter((item) => item !== undefined)
+    );
   } catch (error) {
     // eslint-disable-next-line no-console
     return console.error('Error analyzing toxicity:', error);
@@ -37,44 +52,52 @@ const analyzeToxicity = async (text: string) => {
 
 export default function Home() {
   const [input, setInput] = useState('');
+  const [result, setResult] = useState<any[]>([]); // [ [ { TOXICITY: { summaryScore: { value: 0.5 } } }, 0.5 ]
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
     setInput(e.target.value);
-  };
-  // eslint-disable-next-line array-callback-return,consistent-return
+
+  // eslint-disable-next-line consistent-return
   const onSubmit = async () => {
-    let flag = false;
     const results = await analyzeToxicity(input);
-    // eslint-disable-next-line array-callback-return,consistent-return
-    results?.map((result, idx) => {
-      if (result[1] > 0.6) {
-        flag = true;
-        // eslint-disable-next-line no-alert
-        return alert(
-          `😡${Object.keys(result[0])[idx]}: ${
-            result[1]
-          } 로 비속어 및 욕설로 분류되었습니다.😡`
-        );
-      }
-    });
-    // eslint-disable-next-line no-alert
-    if (!flag) return alert('😇비속어 및 욕설이 없습니다.😇');
+    // @ts-ignore
+    setResult(results);
   };
 
   return (
-    <main className="flex min-h-[1000px] flex-col items-center p-24">
-      <h1 className="font-bold text-2xl mb-10">DO NOT SAY PROFANITY</h1>
+    <main className="flex min-h-[1000px] flex-col items-center p-24 bg-gray-800">
+      <h1 className="font-bold text-2xl mb-10 text-white">
+        DO NOT SAY PROFANITY
+      </h1>
       <textarea
         className="rounded w-[500px] text-black border border-black h-[400px] p-5"
         onChange={handleChange}
       />
       <button
-        className="border border-blue-600 rounded w-[200px] mt-10"
+        className="border border-blue-600 bg-blue-100 rounded w-[500px] h-10 mt-2"
         onClick={onSubmit}
         type="button"
       >
         검사하기
       </button>
+      <div className="p-5 bg-white w-full rounded mt-8 min-h-[200px]">
+        {result.length ? (
+          <div>
+            {result.map((item, idx) => {
+              return (
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={idx}>
+                  <span>
+                    {item[0]} : {item[1]}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div>욕설이 감지되지 않았습니다.</div>
+        )}
+      </div>
     </main>
   );
 }

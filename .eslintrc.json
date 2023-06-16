@@ -1,3 +1,9 @@
 {
-  "extends": ["@wonse/eslint-config"]
+  "extends": ["@wonse/eslint-config"],
+  "rules": {
+    "eslint-disable-next-line-no-console": "off",
+    "eslint-disable-next-line-array-callback-return": "off",
+    "eslint-disable-consistent-return": "off",
+    "eslint-disable-next-line-no-alert": "off"
+  }
 }
