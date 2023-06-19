@@ -8,14 +8,14 @@ import ResultBox from '@/app/components/ResultBox';
 import TextArea from '@/app/components/TextArea';
 
 // const PROFANITY_CRITERIA = 0.5;
-const ATTRIBUTES = [
-  'TOXICITY(비속어)',
-  'SEVERE_TOXICITY(심한 비속어)',
-  'IDENTITY_ATTACK(인격 모독)',
-  'INSULT(모욕)',
-  'PROFANITY(욕설)',
-  'THREAT(위협)',
-];
+// const ATTRIBUTES = [
+//   'TOXICITY(비속어)',
+//   'SEVERE_TOXICITY(심한 비속어)',
+//   'IDENTITY_ATTACK(인격 모독)',
+//   'INSULT(모욕)',
+//   'PROFANITY(욕설)',
+//   'THREAT(위협)',
+// ];
 
 const analyzeToxicity = async (text: string) => {
   if (!text) return;
