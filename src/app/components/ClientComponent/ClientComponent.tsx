@@ -37,10 +37,14 @@ const analyzeToxicity = async (text: string) => {
   try {
     const response = await axios.post(url, request);
     const data = Object.values(response.data.attributeScores);
-    return data.map((item, idx) => {
+    let highestScore = -1;
+    data.map((item) => {
       // @ts-ignore
-      return [ATTRIBUTES[idx], item.summaryScore.value];
+      if (item.summaryScore.value > highestScore)
+        // @ts-ignore
+        highestScore = item.summaryScore.value;
     });
+    return highestScore;
   } catch (error) {
     return console.error('Error analyzing toxicity:', error);
   }
@@ -48,7 +52,7 @@ const analyzeToxicity = async (text: string) => {
 
 function ClientComponent() {
   const [input, setInput] = useState('');
-  const [result, setResult] = useState<any[]>([]);
+  const [result, setResult] = useState<number>(-1);
 
   const onSubmit = async () => {
     const results = await analyzeToxicity(input);
